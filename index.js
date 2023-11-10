@@ -73,10 +73,12 @@ class TaskController {
     this.#tasks = [];
   }
 
-  addTask(...task) {
-    for (const task of tasks){
-      if(task instanceof Task){
+  addTask(...tasks) {
+    for (const task of tasks) {
+      if(task instanceof Task) {
         this.#tasks.push(task);
+      } else {
+        throw new Error('Такое поле уже существует!');
       }
     }
   }
@@ -97,20 +99,11 @@ class BudgetController {
       balance: initialBalance,
       income: 12,
       expenses: 10
-    };
-
-    Object.defineProperty(this, 'balance', {
-      get (){
-        return this.#budget.balance;
-      }
-    });
+    }
+  }
+  get balance() {
+    return this.#budget.balance;
   }
 }
 
-console.clear();
-
-const task1 = new Task ('', "НАлоги", 5000);
-
-console.log(task1);
-console.log(task1.makeDone());
 
