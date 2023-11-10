@@ -45,14 +45,12 @@ class IncomeTask extends Task {
     super (id, description, cost);
   }
 
-
-
-  makeDone(){
-
+  makeDone(budget){
+    budget.income += this._cost;
   }
 
-  makeUnDone(){
-
+  makeUnDone(budget){
+    budget.income -= this._cost;
   }
 }
 
@@ -61,11 +59,11 @@ class ExspenseTask extends Task {
     super (id, description, cost);
   }
    makeDone(){
-
+    budget.expenses += this._cost;
   }
 
   makeUnDone(){
-    
+    budget.expenses -= this._cost;
   }
 }
 
@@ -76,29 +74,42 @@ class TaskController {
   }
 
   addTask(...task) {
-  
+    for (const task of tasks){
+      if(task instanceof Task){
+        this.#tasks.push(task);
+      }
+    }
   }
 
   getTasks(){
   return this.#tasks;
   }
+
+
 }
 
 class BudgetController {
   #taskController;
   #budget;
-  constructor(){
-    this.#taskController;
+  constructor(initialBalance = 0){
+    this.#taskController = new TaskController();
     this.#budget = {
       balance: initialBalance,
       income: 12,
       expenses: 10
     };
 
-    Object.defineProperty(this, 'expenses', {
+    Object.defineProperty(this, 'balance', {
       get (){
         return this.#budget.balance;
       }
     });
   }
 }
+
+console.clear();
+
+const task1 = new Task ('', "НАлоги", 5000);
+
+console.log(task1);
+console.log(task1.makeDone());
