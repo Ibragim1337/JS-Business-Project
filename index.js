@@ -107,3 +107,77 @@ class BudgetController {
 }
 
 
+
+class IncomeTask extends Task {
+  constructor(id, description, cost){
+    super (id, description, cost);
+  }
+
+  makeDone(budget){
+    budget.income += this._cost;
+  }
+
+  makeUnDone(budget){
+    budget.income -= this._cost;
+  }
+}
+
+class ExspenseTask extends Task {
+  constructor(id, description, cost){
+    super (id, description, cost);
+  }
+   makeDone(){
+    budget.expenses += this._cost;
+  }
+
+  makeUnDone(){
+    budget.expenses -= this._cost;
+  }
+}
+
+class TaskController {
+  #tasks;
+  constructor () {
+    this.#tasks = [];
+  }
+
+  addTask(...task) {
+    for (const task of tasks){
+      if(task instanceof Task){
+        this.#tasks.push(task);
+      }
+    }
+  }
+
+  getTasks(){
+  return this.#tasks;
+  }
+
+
+}
+
+class BudgetController {
+  #taskController;
+  #budget;
+  constructor(initialBalance = 0){
+    this.#taskController = new TaskController();
+    this.#budget = {
+      balance: initialBalance,
+      income: 12,
+      expenses: 10
+    };
+
+    Object.defineProperty(this, 'balance', {
+      get (){
+        return this.#budget.balance;
+      }
+    });
+  }
+}
+
+console.clear();
+
+const task1 = new Task ('', "НАлоги", 5000);
+
+console.log(task1);
+console.log(task1.makeDone());
