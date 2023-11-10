@@ -15,9 +15,7 @@ function Task (id, description, cost){
   } else {
     throw new Error ("Значение должно быть число и больше 0")
   }
-    // this._description = description;
-  // this._cost = cost;
-
+  
   Object.defineProperty(this, 'id', {
     get: function() {
       return id;
@@ -46,22 +44,61 @@ class IncomeTask extends Task {
   constructor(id, description, cost){
     super (id, description, cost);
   }
+
+
+
+  makeDone(){
+
+  }
+
+  makeUnDone(){
+
+  }
 }
 
 class ExspenseTask extends Task {
   constructor(id, description, cost){
     super (id, description, cost);
   }
-  
+   makeDone(){
+
+  }
+
+  makeUnDone(){
+    
+  }
 }
 
 class TaskController {
   #tasks;
-  constructor (tasks) {
-    this.#tasks;
+  constructor () {
+    this.#tasks = [];
+  }
+
+  addTask(...task) {
+  
+  }
+
+  getTasks(){
+  return this.#tasks;
   }
 }
 
-const task1 = new Task('', 'task1 money', 3000);
+class BudgetController {
+  #taskController;
+  #budget;
+  constructor(){
+    this.#taskController;
+    this.#budget = {
+      balance: initialBalance,
+      income: 12,
+      expenses: 10
+    };
 
-console.log(task1.description);
+    Object.defineProperty(this, 'expenses', {
+      get (){
+        return this.#budget.balance;
+      }
+    });
+  }
+}
