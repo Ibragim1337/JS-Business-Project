@@ -81,9 +81,37 @@ class TaskController {
     });
 }
 
-  getTasks() {
-        return this.#tasks;
-    }
+  deleteTask(task) {
+  const index = this.#tasks.findIndex(function(t) {
+    return t.id === task.id;
+  });
+
+  if (index !== -1) {
+    this.#tasks.splice(index, 1);
+  }
+}
+
+getTasksSortedBy(sortBy) {
+  return [...this.tasks].sort(function(a, b) {
+      if (sortBy === 'description') {
+          const desc1 = a.description.toLowerCase();
+          const desc2 = b.description.toLowerCase();
+          if (desc1 > desc2) return 1;
+          if (desc1 < desc2) return -1;
+      } else if (sortBy === 'status') {
+          if (a.status && typeof a.status === 'string' && b.status && typeof b.status === 'string') {
+              const status1 = a.status.toLowerCase();
+              const status2 = b.status.toLowerCase();
+              if (status1 > status2) return 1;
+              if (status1 < status2) return -1;
+          }
+      } else if (sortBy === 'cost') {
+          return a.cost - b.cost;
+      }
+      return 0;
+  });
+}
+
 
 
 }
