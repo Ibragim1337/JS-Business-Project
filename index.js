@@ -94,10 +94,10 @@ class TaskController {
 getTasksSortedBy(sortBy) {
   return [...this.tasks].sort(function(a, b) {
       if (sortBy === 'description') {
-          const desc1 = a.description.toLowerCase();
-          const desc2 = b.description.toLowerCase();
-          if (desc1 > desc2) return 1;
-          if (desc1 < desc2) return -1;
+          const description1 = a.description.toLowerCase();
+          const description2 = b.description.toLowerCase();
+          if (description1 > description2) return 1;
+          if (description1 < description2) return -1;
       } else if (sortBy === 'status') {
           if (a.status && typeof a.status === 'string' && b.status && typeof b.status === 'string') {
               const status1 = a.status.toLowerCase();
@@ -177,6 +177,19 @@ class BudgetController {
 
   addTasks(...tasks) {
   this.#tasksController.addTasks(...tasks);
+}
+
+deleteTask(task) {
+  if (!this.#tasksController.getTasks().includes(task)) {
+      console.log(`Task ${task.id} isn't recognized`);
+      return;
+  }
+
+  if (task.isCompleted) {
+      this.unDoneTask(task);
+  }
+
+  this.#tasksController.deleteTask(task);
 }
 
 }
