@@ -112,6 +112,35 @@ getTasksSortedBy(sortBy) {
   });
 }
 
+getFilteredTasks(filter) {
+  return this.#tasks.filter(function(task) {
+      if (filter.description) {
+          if (!task.description.toLowerCase().includes(filter.description.toLowerCase())) {
+              return false;
+          }
+      }
+
+      if (typeof filter.isIncome === 'boolean') {
+          if (filter.isIncome && !(task instanceof IncomeTask)) {
+              return false;
+          }
+          if (!filter.isIncome && !(task instanceof ExpenseTask)) {
+              return false;
+          }
+      }
+
+      if (typeof filter.isCompleted === 'boolean') {
+          if (filter.isCompleted && !task.isCompleted) {
+              return false;
+          }
+          if (!filter.isCompleted && task.isCompleted) {
+              return false;
+          }
+      }
+
+      return true;
+  });
+}
 
 
 }
@@ -130,6 +159,13 @@ class BudgetController {
   get balance() {
     return this.#budget.balance;
   }
+  get income() {
+    return this.#budget.income;
+}
+
+  get expenses() {
+    return this.#budget.expenses;
+}
 }
 
 
