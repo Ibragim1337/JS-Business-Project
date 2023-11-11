@@ -54,7 +54,7 @@ class IncomeTask extends Task {
   }
 }
 
-class ExspenseTask extends Task {
+class ExpenseTask extends Task {
   constructor(id, description, cost){
     super (id, description, cost);
   }
@@ -73,19 +73,17 @@ class TaskController {
     this.#tasks = [];
   }
 
-  addTask(...tasks) {
-    for (const task of tasks) {
-      if(task instanceof Task) {
-        this.#tasks.push(task);
-      } else {
-        throw new Error('Такое поле уже существует!');
-      }
-    }
-  }
+  addTasks(...tasks) {
+    tasks.forEach((task) => {
+        if (!this.#tasks.includes(task)) {
+            this.#tasks.push(task);
+        }
+    });
+}
 
-  getTasks(){
-  return this.#tasks;
-  }
+  getTasks() {
+        return this.#tasks;
+    }
 
 
 }
@@ -108,76 +106,10 @@ class BudgetController {
 
 
 
-class IncomeTask extends Task {
-  constructor(id, description, cost){
-    super (id, description, cost);
-  }
-
-  makeDone(budget){
-    budget.income += this._cost;
-  }
-
-  makeUnDone(budget){
-    budget.income -= this._cost;
-  }
-}
-
-class ExspenseTask extends Task {
-  constructor(id, description, cost){
-    super (id, description, cost);
-  }
-   makeDone(){
-    budget.expenses += this._cost;
-  }
-
-  makeUnDone(){
-    budget.expenses -= this._cost;
-  }
-}
-
-class TaskController {
-  #tasks;
-  constructor () {
-    this.#tasks = [];
-  }
-
-  addTask(...task) {
-    for (const task of tasks){
-      if(task instanceof Task){
-        this.#tasks.push(task);
-      }
-    }
-  }
-
-  getTasks(){
-  return this.#tasks;
-  }
-
-
-}
-
-class BudgetController {
-  #taskController;
-  #budget;
-  constructor(initialBalance = 0){
-    this.#taskController = new TaskController();
-    this.#budget = {
-      balance: initialBalance,
-      income: 12,
-      expenses: 10
-    };
-
-    Object.defineProperty(this, 'balance', {
-      get (){
-        return this.#budget.balance;
-      }
-    });
-  }
-}
 
 console.clear();
 
 const task1 = new Task ('', "НАлоги", 5000);
+const bdg = new BudgetController()
 
 console.log(task1);
-console.log(task1.makeDone());
