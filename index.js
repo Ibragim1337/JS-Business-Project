@@ -140,9 +140,7 @@ getFilteredTasks(filter) {
 
       return true;
   });
-}
-
-
+  }
 }
 
 class BudgetController {
@@ -152,8 +150,8 @@ class BudgetController {
     this.#tasksController = new TaskController();
     this.#budget = {
       balance: initialBalance,
-      income: 12,
-      expenses: 10
+      income: 0,
+      expenses: 0
     }
   }
   get balance() {
@@ -192,14 +190,50 @@ deleteTask(task) {
   this.#tasksController.deleteTask(task);
 }
 
+doneTask(task) {
+  if (!this.#tasksController.getTasks().includes(task)) {
+      console.log(`Task ${task.id} isn't recognized`);
+      return;
+  }
+
+  if (task.isCompleted) {
+      console.log('Task is already done');
+      return;
+  }
+
+  task.makeDone(this.#budget);
 }
 
+unDoneTask(task) {
+  if (!this.#tasksController.getTasks().includes(task)) {
+      console.log(`Task ${task.id} isn't recognized`);
+      return;
+  }
 
+  if (!task.isCompleted) {
+      console.log('Task isn\'t done before');
+      return;
+  }
 
+  task.makeUnDone(this.#budget);
+}
+
+getFilteredTasks(filter) {
+  return this.#tasksController.getFilteredTasks(filter);
+}
+
+}
 
 console.clear();
 
-const task1 = new Task ('', "НАлоги", 5000);
-const bdg = new BudgetController()
+const budgetController = new BudgetController(0);
+const taskController = new TaskController();
+const task1 = new IncomeTask('','Подарок', 500000);
+const task4 = new ExpenseTask('','Машина', 120000);
 
-console.log(task1);
+taskController.addTasks(task1, task4);
+budgetController.addTasks(task1, task4);
+budgetController.doneTask(task1);
+budgetController.unDoneTask(task4);
+
+console.log('Current balance:', budgetController.calculateBalance());
