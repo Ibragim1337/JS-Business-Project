@@ -146,10 +146,10 @@ getFilteredTasks(filter) {
 }
 
 class BudgetController {
-  #taskController;
+  #tasksController;
   #budget;
   constructor(initialBalance = 0){
-    this.#taskController = new TaskController();
+    this.#tasksController = new TaskController();
     this.#budget = {
       balance: initialBalance,
       income: 12,
@@ -170,6 +170,15 @@ class BudgetController {
   calculateBalance() {
   return this.#budget.balance + this.#budget.income - this.#budget.expenses;
 }
+
+  getTasks() {
+  return this.#tasksController.getTasks();
+}
+
+  addTasks(...tasks) {
+  this.#tasksController.addTasks(...tasks);
+}
+
 }
 
 
