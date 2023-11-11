@@ -166,6 +166,10 @@ class BudgetController {
   get expenses() {
     return this.#budget.expenses;
 }
+
+  calculateBalance() {
+  return this.#budget.balance + this.#budget.income - this.#budget.expenses;
+}
 }
 
 
